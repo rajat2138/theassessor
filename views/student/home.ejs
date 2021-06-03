@@ -1,0 +1,130 @@
+<%- include("../partials/authUpper.ejs") %>
+
+
+
+
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="card mycard">
+                        <div class="card-body">
+                            <h5 class="card-title mybluecolor text-center">Student Profile</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                <hr>
+                                <h5 class="text-center" id="level"></h5>
+                                <div class="text-center">
+                                    <span class="fa fa-star star-dim" id="star1"></span>
+                                    <span class="fa fa-star star-dim" id="star2"></span>
+                                    <span class="fa fa-star star-dim" id="star3"></span>
+                                    <span class="fa fa-star star-dim" id="star4"></span>
+                                    <span class="fa fa-star star-dim" id="star5"></span>
+                                    <span class="fa fa-star star-dim" id="star6"></span>
+                                    <span class="fa fa-star star-dim" id="star7"></span>
+                                </div>
+                                <div class="text-center margin-top mycolor" id="ap"></div>
+                                <div ></div>
+                            </h6>
+                            <div class="row">
+                                <div class="col align-self-center text-center">
+                                    <h6 class="myorangecolor text-center" id="invititation-code"></h6>
+                                </div>
+                                <div class="col align-self-center text-center"></div>
+                                <div class="col align-self-end">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <div class="card" id="card-big">
+                    <div class="card-body">
+                        <h5 class="card-title mybluecolor text-center">Upcoming Tests</h5>
+                        <div class="row" id="testDisplayArea">
+
+
+                        </div>
+                        <div class="col align-self-center text-center"></div>
+                        <div class="col align-self-center text-center">
+                            <a href="/student/test-archives"><button class="btn btn-danger btn-top-margin">All
+                                    Test</button></a>
+                        </div>
+                        <div class="col align-self-end"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <%- include("../partials/footer.ejs") %>
+
+
+        <script>
+            function newWindow(fileName, windowName) { msgWindow = window.open(fileName, windowName); }
+
+            var tests;
+            $("document").ready(function () {
+                $.get("/student/get-upcoming-tests", function (data, status) {
+                    if (!data.tests) {
+                        $("#testDisplayArea").append('<h3 class="text-center user-select-none" style="color:gray;margin-top:2%;">' + data.msg + '</h3>')
+                    }
+                    else {
+                        var i = 0;
+                        tests = data.tests;
+                        tests.sort(function (a, b) {
+                            return a.startTime - b.startTime;
+                        });
+                        tests.forEach(test => {
+                            if (i < 4) {
+                                createTestBlock(test)
+                                i++
+                            }
+                            else {
+                                i++;
+                            }
+                        });
+                    }
+                });
+
+                $.get("/student/api/ratings", function (data, status) {
+                    if (data.msg==="success"){
+                        $("#level").append(data.level)
+                        for(let i=1;i<=data.stars;i++){
+                            $("#star"+i).removeClass('star-dim')
+                            $("#star"+i).addClass('star-bright')
+                        }
+                        $("#ap").append('Assessor Points : '+data.rating)
+                    }
+                })
+                
+            })
+
+            function createTestBlock(test) {
+                var block = '<div class="shadow-sm p-3 mb-1 bg-body position-relative border rounded-1 lh-base upcoming-test-block"><div class="row">';
+                block += '<div class="col-lg-4 col-md-6 col-sm-6">Subject : ' + test.subject + '</div>';
+                var d = new Date(test.startTime); var date = d.getDate(); var month = d.getMonth()+1; var year = d.getFullYear();
+                console.log(d);
+                console.log(month, date, year);
+                var hour = d.getHours(); var mins = d.getMinutes(); var x = " AM";
+                if (date < 10) { date = "0" + date; }
+                if (month < 10) { month = "0" + month; }
+                if (hour > 12) { hour = hour - 12; x = " PM"; }
+                if (hour < 10) { hour = "0" + hour; }
+                if (mins < 10) { mins = "0" + mins; }
+                block += '<div class="col-lg-4 col-md-6 col-sm-6">Date : ' + date + '/' + month + '/' + year + '</div>';
+                block += '<div class="col-lg-4 col-md-6 col-sm-6">Time : ' + hour + ' : ' + mins + x + '</div>';
+                block += '<div class="col-lg-4 col-md-6 col-sm-6">Window Time : ' + test.windowTime + '</div>';
+                block += '<div class="col-lg-4 col-md-6 col-sm-6">Duration  : ' + test.duration + '</div>';
+                block += '<div class="col-lg-4 col-md-6 col-sm-6">';
+                block += '<a href="/student/test/' + test._id + '" class="btn btn-outline-warning btn-sm stretched-link">Go to this Test</a></div></div></div>'
+                $("#testDisplayArea").append(block);
+            }
+
+        </script>

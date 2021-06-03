@@ -1,0 +1,68 @@
+<%- include("../partials/authUpper.ejs") %>
+
+
+    <div class="container-fluid about-item">
+        <div class="row justify-content-center">
+            <div class="col-10">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr class="text-center">
+                            <th scope="col-1 cell">#</th>
+                            <th scope="col-1 cell">Picture</th>
+                            <th scope="col-3 cell">Name</th>
+                            <th scope="col-4 cell">Email</th>
+                            <th scope="col cell">Class</th>
+                            <th scope="col cell">Section</th>
+                            <th scope="col cell">Roll</th>
+                            <th scope="col cell">Score</th>
+                            <th scope="col cell">AP</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+
+                    </tbody>
+                </table>
+            </div>
+            <div id="msg"></div>
+        </div>
+    </div>
+
+    <script>
+        $("document").ready(function () {
+            $.get("/institute/api/test/results/<%= testId %>", function(data,status) {
+                if (data.msg === "success") {
+                    var results=data.resultData
+                    var i = 0;
+                    results.sort(function (a, b) {
+                        return a.score - b.score;
+                    });
+                    results.forEach(data => {
+                        i++;
+                        createRow(data, i)
+                    });
+                }
+                else {
+                    $("#msg").append('<h3 class="text-center user-select-none" style="color:gray;margin-top:2%;">'+data.msg+'</h3>');
+                }
+            })
+        })
+        // 
+
+        function createRow(data, i){
+            var student=data.student
+            var block = '<tr>';
+            block += '<td scope="col-1" class="cell">' + i + '.</td>';
+            block += '<td scope="col-3" class="cell"><img src="' + student.picture + '" alt="Picture" width="50" height="50" loading="lazy" class="d-inline-block align-text-top rounded-circle img-zoom-on-hover" ></td > ';
+            block += '<td scope="col-1" class="cell user-select-all">' + student.name + '</td>';
+            block += '<td scope="col-4" class="cell user-select-all">' + student.email + '</td>';
+            block += '<td scope="col-1" class="cell">' + student.class + '</td>';
+            block += '<td scope="col-1" class="cell">' + student.section + '</td>';
+            block += '<td scope="col-1" class="cell">' + student.roll + '</td>';
+            block += '<td scope="col-1" class="cell">' + data.score + '</td>';
+            block += '<td scope="col-1" class="cell">' + data.ap + '</td>';
+            block += '</tr>';
+            $("#tableBody").append(block);
+        }
+    </script>
+
+    <%- include("../partials/footer.ejs") %>

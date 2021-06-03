@@ -1,0 +1,164 @@
+<%- include("../partials/authUpper.ejs") %>
+    <div class="container">
+        <div class="row" id="testDetails">
+            <div class="col-md-4">
+                Class : <b>
+                    <%= test.class %>
+                </b>
+            </div>
+            <div class="col-md-4">
+                <% var section=test.section; if(section==="all" ){section="All Sections Allowed" ;} %>
+                    Section : <b>
+                        <%= section %>
+                    </b>
+            </div>
+            <div class="col-md-4">
+                Subject : <b>
+                    <%= test.subject %>
+                </b>
+            </div>
+            <div class="col-md-4">
+
+                <% var d=test.startTime; var date=d.getDate(); var month=d.getMonth(); var year=d.getFullYear(); var
+                    hour=d.getHours(); var mins=d.getMinutes(); var x=" AM" ; if(date<10){date="0" +date;}
+                    if(month<10){month="0" +month;} if(hour>12 ) {hour=hour-12; x=" PM";}
+                    if(hour<10){hour="0"+hour;} if(mins<10){mins="0" +mins;} %>
+                        Date : <b>
+                            <%= date+"/"+month+"/"+year %>
+                        </b>
+            </div>
+            <div class="col-md-4">Time : <b>
+                    <%= hour+" :"+mins+x %>
+                </b></div>
+            <div class="col-md-4">
+                Login Window : <b>
+                    <%= test.windowTime %> minutes
+                </b>
+            </div>
+            <div class="col-md-4">
+                Test Duration : <b>
+                    <%= test.duration %> minutes
+                </b>
+            </div>
+            <div class="col-md-8">
+                Description : <%= test.description %>
+            </div>
+            <div class="row fs-4">
+                <div class="col-md-4" id="score"></div>
+            <div class="col-md-4" id="ap"></div>
+            </div>
+            <div class="col-md-4 fs-3" id="resultMsg"></div>
+        </div>
+        <% const currTime=new Date().valueOf() 
+         var startTime= test.startTime.valueOf()+parseInt(test.duration,10)*60000  %> 
+        <div class="container" id="aboveQuestionArea">
+            <div class="row">
+                <%  if (startTime>currTime) { %>
+                        <a href="/student/test-instructions/<%= test._id %>" class="text-center">
+                            <button class="btn modal-btn">Start Test</button></a>
+                   <% } else{ %>
+                    <h3 class="text-center">Questions</h3>
+                    <% } %>
+            </div>
+
+            
+
+            <div class="row" id="questionDisplayArea">
+
+            </div>
+
+
+
+
+
+
+            <script>
+                var questions;
+                var savedAnswers={};
+                $("document").ready(function () {
+                    $.get("/students/answer/<%= test._id %>", function (data, status) {
+                            if (data.msg === "success") {
+                                savedAnswers = data.answers;
+                            }
+                            
+                    });
+                    $.get("/student/test/<%=test._id%>/questions", function (data, status) {
+                        if (!data.questions) {
+                            $("#questionDisplayArea").append('<h3 class="text-center user-select-none" style="color:gray;margin-top:2%;">' + data.msg + '</h3>')
+                        }
+                        else {
+                            questions = data.questions;
+                            var html = ""
+                            var i = 0;
+                            questions.forEach(question => {
+                                i++;
+                                var savedAnswerForThisQuestion="";
+                                var quesBlock = '<div class="question-block" id="ques-' + question._id + '"><div class="container"><div class="row"><div class="col align-self-start">'
+                                quesBlock += '<div class="question-statement">' + i + '. ' + question.statement + '</div>';
+                                quesBlock += '</div></div></div>'
+                                if (question.image) {
+                                    quesBlock += '<div class="text-center question-image"><img src="' + question.image + '" class="img-fluid" loading="lazy" alt="Image for the question. In case not loaded, please check the image url."></div>';
+                                }
+                                if (question.questionType === "mcq4") {
+                                    var answer = ["option-incorrect", "option-incorrect", "option-incorrect", "option-incorrect"];
+                                    switch (parseInt(question.correct, 10)) {
+                                        case 1: answer[0] = "option-correct"; break;
+                                        case 2: answer[1] = "option-correct"; break;
+                                        case 3: answer[2] = "option-correct"; break;
+                                        case 4: answer[3] = "option-correct"; break;
+                                    }
+                                    switch (parseInt(savedAnswers[question._id], 10)) {
+                                        case 1: savedAnswerForThisQuestion = question.option1; break;
+                                        case 2: savedAnswerForThisQuestion = question.option2; break;
+                                        case 3: savedAnswerForThisQuestion = question.option3; break;
+                                        case 4: savedAnswerForThisQuestion = question.option4; break;
+                                    }
+                                    quesBlock += '<div class="col-md-6 ' + answer[0] + '">i. ' + question.option1 + '</div>';
+                                    quesBlock += '<div class="col-md-6 ' + answer[1] + '">ii. ' + question.option2 + '</div>';
+                                    quesBlock += '<div class="col-md-6 ' + answer[2] + '">iii. ' + question.option3 + '</div>';
+                                    quesBlock += '<div class="col-md-6 ' + answer[3] + '">iv. ' + question.option4 + '</div>';
+                                }
+                                else if (question.questionType === "mcq2") {
+                                    answer = ["option-incorrect", "option-incorrect"];
+                                    switch (parseInt(question.correct, 10)) {
+                                        case 1: answer[0] = "option-correct"; break;
+                                        case 2: answer[1] = "option-correct"; break;
+                                    }
+                                    switch (parseInt(savedAnswers[question._id], 10)) {
+                                        case 1: savedAnswerForThisQuestion = question.option1; break;
+                                        case 2: savedAnswerForThisQuestion = question.option2; break;
+                                    }
+                                    quesBlock += '<div class="col-md-6 ' + answer[0] + '">i. ' + question.option1 + '</div>';
+                                    quesBlock += '<div class="col-md-6 ' + answer[1] + '">ii. ' + question.option2 + '</div>';
+                                }
+                                else if (question.questionType === "oneword") {
+                                    quesBlock += '<div class="option-correct">' + question.correct + '</div>';
+                                    savedAnswerForThisQuestion = savedAnswers[question._id]
+                                }
+                                if (!(savedAnswerForThisQuestion === "" || savedAnswerForThisQuestion === undefined || savedAnswerForThisQuestion === null)) {
+                                    quesBlock += '<div class="row mycolor fs-5 margin-left">Your Answer : '+savedAnswerForThisQuestion+'</div';
+                                }
+                                quesBlock += '</div>';
+                                $("#questionDisplayArea").append(quesBlock);
+                            });
+                        }
+                    });
+                    $.get("/student/api/test/results/<%=test._id %>", function(data,status){
+                        if(data.msg==="success"){
+                            $("#score").append('Score : <b class="myorangecolor">'+data.resultData.score+'</b>');
+                            $("#ap").append('Accessor Points : <b class="myorangecolor">'+data.resultData.ap+'</b>');
+                        }
+                        else{
+                            $("#resultMsg").append(data.msg);
+                        }
+                    })
+                    
+                });
+                
+            </script>
+
+            <%- include("../partials/footer.ejs") %>
+
+            
+
+   

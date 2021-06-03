@@ -1,0 +1,48 @@
+<%- include("../partials/authUpper.ejs") %>
+
+
+    <div class="container-fluid">
+        <div class="row" id="requestDisplayArea">
+        
+        </div>
+    </div>
+
+
+    <script>
+        $("document").ready(function () {
+            $.get("/get-student-requests", function (data, status) {
+                var requests = data.requests;
+                if (requests.length==0) {
+                    $("#requestDisplayArea").append('<h3 class="text-center user-select-none" style="color:gray;margin-top:2%;">No new request</h3>')
+                }
+                else {
+                    var i = 0;
+                    
+                    requests.forEach(request => {
+                        createTestBlock(request)
+                    });
+                }
+            });
+        })
+
+        function createTestBlock(request) {
+            var block = '<div class="card student-card col-lg-4 col-md-6 col-sm-12" style="width: 18rem;">';
+            block += '<img src="'+request.student.picture+'" class="card-img-top" alt="Profile Picture" width="100" height="240" loading=lazy class="">';
+            // block += '<div class="card-body">';
+            block += '<h5 style="margin-top:2%;" class="text-center">'+request.student.name+'</h5>';            
+            block += '<span class=" black-text">Class : '+request.class+'</span>';
+            block += '<span class=" black-text">Section : '+request.section+'</span>';
+            block += '<span class=" black-text">Roll : '+request.roll+'</span>';
+            block += '<span class=" black-text resp-text">'+request.student.email+'</span>';
+            block += '<div class="row justify-content-center"><hr style="margin-top:1%">';
+            block += '<div class="col-5"><form action="/request/reject" method="POST"><input hidden type="text" name="student" value="'+request.student._id+'"><button type="submit" class="btn btn-danger card-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="Reject"><i class="fas fa-times"></i></button></form></div>';
+            block += '<div class="col-5"><form action="/request/accept" method="POST"><input hidden type="text" name="student" value="'+request.student._id+'"><button type="submit" class="btn btn-warning card-btn" data-bs-toggle="tooltip" data-bs-placement="top" title="Accept"><i class="fas fa-user-plus"></i></button></form></div>';
+            block += '</div></div>';
+            $("#requestDisplayArea").append(block);
+        }
+    </script>
+
+
+
+
+    <%- include("../partials/footer.ejs") %>

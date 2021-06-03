@@ -1,0 +1,71 @@
+<%- include("../partials/authUpper.ejs") %>
+
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-10 ">
+            <div class="card" id="card-big">
+                <div class="card-body">
+                    <h3 class="card-title mybluecolor text-center">Your Tests</h3>
+                    <div class="row" id="testDisplayArea">
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+ <script>
+    $("document").ready(function () {
+        var tests;
+        $.get("/tests", function (data, status) {
+            if (!data.tests) {
+                $("#testDisplayArea").append('<h1 class="text-center user-select-none" style="color:gray;margin-top:4%>' + data.msg + '</h1>')
+            }
+            else {
+                var i = 0;
+                var tests = data.tests;
+                tests.sort(function (a, b) {
+                    return a.startTime - b.startTime;
+                });
+                tests.reverse()
+                tests.forEach(test => {
+                    createTestBlock(test)
+                });
+            }
+        });
+    })
+
+    function createTestBlock(test) {
+        var block = '<div class="shadow-sm p-3 mb-1 bg-body position-relative border rounded-1 lh-base upcoming-test-block"><div class="row">';
+        block += '<div class="col-lg-2 col-md-4 col-sm-6">Class : ' + test.class + '</div>';
+        var section = test.section;
+        if (section === "all") { section = "All" }
+        block += '<div class="col-lg-2 col-md-4 col-sm-6">Section : ' + section + '</div>';
+        block += '<div class="col-lg-2 col-md-4 col-sm-6">Subject : ' + test.subject + '</div>';
+        var d = new Date(test.startTime); var date = d.getDate(); var month = d.getMonth(); var year = d.getFullYear();
+        var hour = d.getHours(); var mins = d.getMinutes(); var x = " AM";
+        if (date < 10) { date = "0" + date; }
+        if (month < 10) { month = "0" + month; }
+        if (hour > 12) { hour = hour - 12; x = " PM"; }
+        if (hour < 10) { hour = "0" + hour; }
+        if (mins < 10) { mins = "0" + mins; }
+        block += '<div class="col-lg-2 col-md-4 col-sm-6">Date : ' + date + '/' + month + '/' + year + '</div>';
+        block += '<div class="col-lg-2 col-md-4 col-sm-6">Time : ' + hour + ' : ' + mins + x + '</div>';
+        block += '<div class="col-lg-2 col-md-4 col-sm-6">';
+        block += '<a href="/test/' + test._id + '" class="btn btn-outline-warning btn-sm stretched-link">Go to this Test</a></div></div></div>'
+        $("#testDisplayArea").append(block);
+    }
+</script>
+
+
+<%- include("../partials/footer.ejs") %>

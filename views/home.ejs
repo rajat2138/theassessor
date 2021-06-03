@@ -1,0 +1,42 @@
+<% if (!user) { %>
+    <%- include("./partials/unauthUpper.ejs") %>
+        <% } else {%>
+            <%- include("./partials/authUpper.ejs") %>
+                <% } %>
+
+<!-- About  -->
+<div class="row" id="about">
+<div class="col-lg-6 about-item" id="about-description">
+    <p>
+        We provide an effecient web based platform for institutions to manage the needs of
+        students.
+        We understand the issues faced in remote places and hence our design is simple yet
+        powerful so that exam can be taken by students even on slower internet connection.
+        Our goal is that each school and students stay connected even when there is no
+        physical appearance.
+        We are in an era of digital reforms and the whole World is online.
+        This is the time we should stand together and collabrate in the making of the
+        future.
+    </p>
+</div>
+<div class="col-lg-6 about-item">
+    <div class="row">
+        <div class="col-sm-4">
+            <i class="fa fa-chalkboard-teacher fa-4x icon-card"></i>
+            <h3>Experience</h3>
+        </div>
+        <div class="col-sm-4">
+            <i class="fas fa-user-lock fa-4x  icon-card"></i>
+            <h3>Control</h3>
+        </div>
+        <div class="col-sm-4">
+            <i class="fa fa-check-circle fa-4x  icon-card"></i>
+            <h3>Ease</h3>
+        </div>
+    </div>
+</div>
+</div>
+<!-- Features -->
+                    
+
+<%- include("./partials/footer.ejs") %>

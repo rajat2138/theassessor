@@ -1,0 +1,8 @@
+<% if (!user) { %>
+    <%- include("./partials/unauthUpper.ejs") %> 
+<% } else {%>
+    <%- include("./partials/authUpper.ejs") %> 
+<% }  %>
+ 
+<h4 class="text-center about-item"> <%= msg %>  </h4>
+<%- include("./partials/footer.ejs") %> 

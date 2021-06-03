@@ -1,0 +1,340 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <script src="https://kit.fontawesome.com/8a4b29bacf.js" crossorigin="anonymous"></script>
+    <!-- jQuery CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="/css/style.css">
+    <title>The Assesor</title>
+    <link rel="icon" href="/images/logo-white.png">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="shadow-lg p-15 mb-1 rounded navbar navbar-expand-lg navbar-dark bg-success">
+        <div class="container-fluid">
+            <a class="navbar-brand">
+                <img src="<%= user.instituteLogo %> " alt="Logo" width="10%" height="10%"
+                    class="d-inline-block align-text-top rounded-circle">
+                <p class="d-inline-block align-text-top responsive-text cell" style="padding-left:2%;">
+                    <%= user.instituteName %>
+                </p>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <!-- <span class="navbar-toggler-icon"></span> -->
+                <img src="<%= user.picture%>" alt="" width="60%" height="60%" loading=lazy
+                    class="d-inline-block align-text-top rounded-circle">
+            </button>
+            <ul class="navbar-nav ml-* justify-content-end collapse navbar-collapse " id="navbarNavAltMarkup">
+                <!-- <li><a class="nav-link" data-bs-toggle="modal" data-bs-target="#cancel">Go Back</a></li> -->
+                <!-- <li><a class="nav-link" data-bs-toggle="modal" data-bs-target="#start">Start Test</a></li> -->
+                <li><img src="<%= user.picture%>" alt="" width="60%" height="60%" loading=lazy
+                        class="d-inline-block align-text-top rounded-circle d-none d-lg-block"></li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <div class="container-fluid">
+        <div class="row shadow-lg p-3 mb-5 margin-top">
+            <div class="row mycolor" id="msgDisplayArea"></div>
+            <div class="col self-align-start btn-group dropend">
+                <div class="d-sm-block d-md-none">
+                    <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Navigate to
+                    </button>
+
+                    <ul class="dropdown-menu" id="btnDropdown">
+                        <!-- Dropdown menu links -->
+
+                    </ul>
+                </div>
+            </div>
+            <div class="col self-align-center lh-base responsive-text" id="timer"></div>
+            <div class="col self-align-end text-end">
+                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#endTest">End
+                    Test</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 d-none d-md-block shadow">
+                <div class="row shadow question-navigator">
+                    <h3 class="text-center mycolor">Question Navigator</h3>
+                </div>
+                <div class="row  question-navigator" id="btnArea">
+
+                </div>
+            </div>
+            <div class="col-md-8 col-sm-12 question-display">
+                <div class="row  black-text" id="quesNo"></div>
+                <div class="row margin-top  black-text" id="quesStatement"></div>
+                <div class="row margin-top " id="quesImage"></div>
+                <div class="row margin-top  black-text" id="answerArea"></div>
+                <div class="row margin-top" id="msgArea"></div>
+                <div class="row margin-top">
+                    <div class="col self-align-start" id="saveBtn"></div>
+                    <div class="col self-align-end" id="prevBtn"></div>
+                    <div class="col self-align-center" id="nextBtn"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="endTest" tabindex="-1">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title mycolor">End Test</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure?
+                    <div class="modal-footer">
+                        <button type="button" class="btn modal-btn-close" data-bs-dismiss="modal">No</button>
+                        <button type="submit" class="btn modal-btn" onclick="endTest()">Yes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <input type="hidden" id="refreshed" value="no">
+    <script>
+        onload = function () {
+            var e = document.getElementById("refreshed");
+            if (e.value == "no") e.value = "yes";
+            else { e.value = "no"; location.reload(); }
+        }
+        var answers;
+        var questions;
+        var endTime;
+
+        // Function to randomise the questions
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function endTest() {
+            $.post("/student/test/end/<%= participationId %>", function (data, status) {
+                if (data.msg === "success") {
+                    window.close()
+                }
+                else {
+                    alert(data.msg)
+                }
+            })
+        }
+        function addBtn(i) {
+            var answer = answers[questions[i]._id];
+            var btnClr;
+            if (answer === "" || answer === undefined || answer === null) {
+                btnClr = "btn-warning"
+            }
+            else {
+                btnClr = "mybluebtn"
+            }
+            let j = parseInt(i) + 1
+
+            var block = '<div class="col-lg-3 col-md-4 "><button class="btn ' + btnClr + ' btn-lg margin-top" onclick="displayQues(' + i + ')" id="quesNavBtn' + i + '">' + j + '</button></div';
+            $("#btnArea").append(block)
+            block = '<li><a  href="javascript:void(0);" onclick="displayQues(' + i + ');" class="dropdown-item">Question ' + j + '</li>';
+            $("#btnDropdown").append(block)
+        }
+
+
+
+        function displayQues(i) {
+            if (i >= questions.length) {
+                return
+            }
+            if (i < 0) {
+                return
+            }
+            $("#msgArea").html("")
+            var nextBtnState = '', prevBtnState = '';
+            if (i == 0) {
+                prevBtnState = 'disabled'
+            }
+            else if (i == questions.length - 1) {
+                nextBtnState = 'disabled'
+            }
+            ques = questions[i]
+            var j = parseInt(i) + 1
+            var k = parseInt(i) - 1
+            $("#quesNo").html('<h5>Question #' + j + '</h5><hr>');
+            $("#quesStatement").html('<h3 class="user-select-none">' + ques.statement + '</h3>')
+            if (ques.image) {
+                $("#quesImage").html('<div class="text-center question-image"><img src="' + ques.image + '" class="img-fluid" loading="lazy" alt="Image unavailable or bad link"></div>')
+            }
+            else {
+                $("#quesImage").html("")
+            }
+            var answerBlock = '<form onsubmit="saveAnswer(' + i + ')"><input hidden type=text name="quesId" value="' + ques._id + '">'
+            if (ques.questionType === "mcq4") {
+                answerBlock += '<div class="form-check "><input class="form-check-input" type="radio" name="answer" id="option1" value="1"><label class="form-check-label user-select-none" for="option1">' + ques.option1 + '</label></div>';
+                answerBlock += '<div class="form-check margin-top"><input class="form-check-input" type="radio" name="answer" id="option2" value="2"><label class="form-check-label user-select-none" for="option2">' + ques.option2 + '</label></div>';
+                answerBlock += '<div class="form-check margin-top"><input class="form-check-input" type="radio" name="answer" id="option3" value="3"><label class="form-check-label user-select-none" for="option3">' + ques.option3 + '</label></div>';
+                answerBlock += '<div class="form-check margin-top"><input class="form-check-input" type="radio" name="answer" id="option4" value="4"><label class="form-check-label user-select-none" for="option4">' + ques.option4 + '</label></div>';
+            }
+            else if (ques.questionType === "mcq2") {
+                answerBlock += '<div class="form-check"><input class="form-check-input" type="radio" name="answer" id="option1" value="1"><label class="form-check-label user-select-none" for="option1">' + ques.option1 + '</label></div>';
+                answerBlock += '<div class="form-check margin-top"><input class="form-check-input" type="radio" name="answer" id="option2" value="2"><label class="form-check-label user-select-none" for="option2">' + ques.option2 + '</label></div>';
+                answerBlock += '</div >';
+            }
+            else if (ques.questionType === "oneword") {
+                answerBlock += '<div class="mb-3 row"><label for="answer" class="form-label">One word answer</label><input type="text" name="answer" class="form-control" onkeypress="return AvoidSpace(event)" autocomplete="off"></div>'
+            }
+            answerBlock += '</form>'
+            $("#answerArea").html(answerBlock)
+            $("#saveBtn").html('<button class="btn btn-success" type="submit" onclick="saveAnswer(' + i + ')" id="savebtn' + i + '">Save</button>')
+            $("#prevBtn").html('<button class="btn btn-primary text-end" onclick="displayQues(' + k + ')" ' + prevBtnState + '>Previous</button>')
+            $("#nextBtn").html('<button class="btn btn-primary text-end" onclick="displayQues(' + j + ')" ' + nextBtnState + '>Next</button>')
+
+            var answer = answers[ques._id];
+            if (answer === "" || answer === undefined || answer === null) {
+                $("#msgArea").html('<p>Not Answered</p>')
+            }
+            else {
+                if (ques.questionType === "oneword") {
+                    $("#msgArea").html('<p class="mycolor">Your Answer : ' + answer + '</p>')
+                }
+                else {
+                    $("#msgArea").html('<p class="mycolor">Your Answer : Option ' + answer + '</p>')
+                }
+            }
+        }
+
+
+        function saveAnswer(i) {
+            $("#saveBtn" + i).attr('disabled', 'disabled')
+            var answer;
+            ques = questions[i]
+
+            if (ques.questionType === "oneword") {
+                answer = $("input[name='answer']").val()
+                if (answer === "" || answer === undefined || answer === null) {
+                    $("#msgArea").append('<p class="mycolor">Please enter your answer</p>')
+                    return
+                }
+            }
+            else {
+                answer = $("input[type='radio'][name='answer']:checked").val()
+                if (answer === "" || answer === undefined || answer === null) {
+                    $("#msgArea").append('<p class="mycolor">Please select an option</p>')
+                    return
+                }
+            }
+            var postData = {
+                question: ques._id,
+                test: ques.test,
+                answer: answer
+            }
+            // Post data to save answer
+            $.post("/student/test/save-answer/<%= participationId %>", postData, function (data, status) {
+                if (data.msg === "success") {
+                    if (ques.questionType === "oneword") {
+                        $("#msgArea").html('<p class="mycolor">Your Answer : ' + answer + '</p>')
+                    }
+                    else {
+                        $("#msgArea").html('<p class="mycolor">Your Answer : Option ' + answer + '</p>')
+                    }
+                    answers[ques._id] = answer
+                    $("#saveBtn" + i).removeAttr('disabled')
+                    $("#quesNavBtn" + i).removeClass('btn-warning')
+                    $("#quesNavBtn" + i).addClass("mybluebtn")
+                }
+                else {
+                    $("#msgArea").append('<p class="mycolor">' + data.msg + '</p>')
+                    $("#saveBtn" + i).removeAttr('disabled')
+
+                }
+            })
+
+
+
+        }
+
+        function AvoidSpace(event) {
+            var k = event ? event.which : window.event.keyCode;
+            if (k == 32) return false;
+        }
+
+        $("document").ready(function () {
+            // Get all questions 
+            $.get("/student/test/continue/<%= participationId %>", function (data, status) {
+                if (!data.questions) {
+                    $("#msgDisplayArea").append('<h3 class="text-center user-select-none" style="color:gray;margin-top:2%;">' + data.msg + '</h3>')
+                }
+                else {
+                    questions = data.questions
+                    endTime = new Date(data.endTime).valueOf();
+                    // Get all saved answers
+                    $.get("/students/answer/" + questions[0].test, function (data, status) {
+                        answers = data.answers;
+
+                        shuffle(questions)
+                        for (let i = 0; i < questions.length; i++) {
+                            addBtn(i)
+                        }
+                        displayQues(0)
+
+                        var x = setInterval(function () {
+
+                            // Get today's date and time
+                            var currTime = new Date().valueOf();
+
+                            // Find the distance between now and the count down date
+                            var distance = endTime - currTime- 24*60*1000;
+                            console.log(distance);
+
+                            // Time calculations for hours, minutes and seconds
+                            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                            // Output the result in an element with id="demo"
+                            document.getElementById("timer").innerHTML ='<span class="mycolor">Time Left : </span><nobr>'+  minutes + "m " + seconds + "s</nobr>";
+
+                            // If the count down is over, write some text 
+                            if (distance < 0) {
+                                clearInterval(x);
+                                document.getElementById("timer").innerHTML = "EXPIRED";
+                                alert("Time's Up")
+                                endTest()
+                            }
+                        }, 1000);
+
+                    })
+                }
+
+            })
+        })
+
+
+
+    </script>
+
+    <%- include("../partials/footer.ejs") %>

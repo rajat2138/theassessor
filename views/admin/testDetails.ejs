@@ -1,0 +1,360 @@
+<%- include("../partials/authUpper.ejs") %>
+    <div class="container">
+        <div class="row" id="testDetails">
+            <div class="col-md-4">
+                Class : <b>
+                    <%= test.class %>
+                </b>
+            </div>
+            <div class="col-md-4">
+                <% var section=test.section; if(section==="all" ){section="All Sections Allowed" ;} %>
+                    Section : <b>
+                        <%= section %>
+                    </b>
+            </div>
+            <div class="col-md-4">
+                Subject : <b>
+                    <%= test.subject %>
+                </b>
+            </div>
+            <div class="col-md-4">
+
+                <% var d=test.startTime; var date=d.getDate(); var month=d.getMonth(); var year=d.getFullYear(); var
+                    hour=d.getHours(); var mins=d.getMinutes(); var x=" AM" ; if(date<10){date="0" +date;}
+                    if(month<10){month="0" +month;} if(hour>12 ) {hour=hour-12; x=" PM";}
+                    if(hour<10){hour="0"+hour;} if(mins<10){mins="0" +mins;} %>
+                        Date : <b>
+                            <%= date+"/"+month+"/"+year %>
+                        </b>
+            </div>
+            <div class="col-md-4">Time : <b>
+                    <%= hour+" : "+mins+x %>
+                </b></div>
+            <div class="col-md-4">
+                Login Window : <b>
+                    <%= test.windowTime %> minutes
+                </b>
+            </div>
+            <div class="col-md-4">
+                Test Duration : <b>
+                    <%= test.duration %> minutes
+                </b>
+            </div>
+            <div class="col-md-8">
+                Description : <%= test.description %>
+            </div>
+        </div>
+        <div class="container" id="aboveQuestionArea">
+            <div class="row">
+                <div class="col align-self-start">
+                </div>
+                <div class="col align-self-center text-center">
+                    <h3>Questions</h3>
+                </div>
+                <div class="col align-self-end text-end dropdown">
+                    <% const currTime=new Date().valueOf() 
+                        if (test.startTime.valueOf()+parseInt(test.duration,10)*60000+60000<currTime ) { %>
+                        <a href="/test/results/<%= test._id %>" class="text-center">
+                            <button class="btn modal-btn">Results</button></a>
+                        <% } %>
+                        <button class="btn mybtn dropdown-toggle" data-bs-toggle="dropdown" id="addQuestionDropdown"
+                            aria-expanded="false">
+                            <i class="fas fa-plus"></i> &nbsp Add
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="addQuestionDropdown">
+                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#mcq4">MCQ with 4
+                                    options</a></li>
+                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#mcq2">MCQ with 2
+                                    options</a></li>
+                            <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#oneword">One Word
+                                    Type</a>
+                            </li>
+                            <li><a class="dropdown-item" data-bs-toggle="modal"
+                                    data-bs-target="#subjective">Subjective </a>
+                            </li>
+                        </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row" id="questionDisplayArea">
+
+        </div>
+
+
+
+        <!-- Modal -->
+        <div id="mymodals">
+            <div class="modal fade" id="mcq4" tabindex="-1">
+                <div class="modal-dialog ">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title mycolor">Add MCQs with 4 options </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="/test/<%=test._id %>/question/mcq4/add" method="post">
+                            <div class="modal-body">
+                                <label for="statement" class="form-label">Question Statement</label>
+                                <textarea name="statement" id="statement" rows="4" class="form-control mb-3"
+                                    required></textarea>
+                                <div class="mb-3">
+                                    <label for="image" class="form-label">Link to image</label>
+                                    <input type="url" name="image" id="image" class="form-control" autocomplete="off"
+                                        placeholder="https://example.com/images/sample-image">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="option1" class="form-label">Option 1</label>
+                                    <input type="text" name="option1" id="option1" class="form-control"
+                                        autocomplete="off" required placeholder="Option 1">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="option2" class="form-label">Option 2</label>
+                                    <input type="text" name="option2" id="option2" class="form-control"
+                                        autocomplete="off" required placeholder="Option 2">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="option3" class="form-label">Option 3</label>
+                                    <input type="text" name="option3" id="option3" class="form-control"
+                                        autocomplete="off" required placeholder="Option 3">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="option4" class="form-label">Option 4</label>
+                                    <input type="text" name="option4" id="option" class="form-control"
+                                        autocomplete="off" required placeholder="Option 4">
+                                </div>
+                                <label for="correct" class="form-label">Correct Answer</label>
+                                <select class="form-select " id="correct" name="correct">
+                                    <option value="1">Option 1</option>
+                                    <option value="2">Option 2</option>
+                                    <option value="3">Option 3</option>
+                                    <option value="4">Option 4</option>
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn modal-btn-close" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn modal-btn">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="mcq2" tabindex="-1">
+                <div class="modal-dialog ">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title mycolor">Add MCQs with 2 options </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="/test/<%=test._id %>/question/mcq2/add" method="post">
+                            <div class="modal-body">
+                                <label for="statement" class="form-label">Question Statement</label>
+                                <textarea name="statement" id="statement" rows="4" class="form-control mb-3"
+                                    required></textarea>
+                                <div class="mb-3">
+                                    <label for="image" class="form-label">Link to image</label>
+                                    <input type="url" name="image" id="image" class="form-control" autocomplete="off"
+                                        placeholder="https://example.com/images/sample-image">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="option1" class="form-label">Option 1</label>
+                                    <input type="text" name="option1" id="option1" class="form-control"
+                                        autocomplete="off" required placeholder="Option 1">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="option2" class="form-label">Option 2</label>
+                                    <input type="text" name="option2" id="option2" class="form-control"
+                                        autocomplete="off" required placeholder="Option 2">
+                                </div>
+                                <label for="correct" class="form-label">Correct Answer</label>
+                                <select class="form-select " id="correct" name="correct">
+                                    <option value="1">Option 1</option>
+                                    <option value="2">Option 2</option>
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn modal-btn-close" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn modal-btn">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="subjective" tabindex="-1">
+                <div class="modal-dialog ">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title mycolor">Add Subjective Question </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="/test/<%=test._id %>/question/subjective/add" method="post">
+                            <div class="modal-body">
+                                <label for="statement" class="form-label">Question Statement</label>
+                                <textarea name="statement" id="statement" rows="5" class="form-control mb-3"
+                                    required></textarea>
+                                <div class="mb-3">
+                                    <label for="image" class="form-label">Link to image</label>
+                                    <input type="url" name="image" id="image" class="form-control" autocomplete="off"
+                                        placeholder="https://example.com/images/sample-image">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn modal-btn-close"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" disabled class="btn modal-btn">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="oneword" tabindex="-1">
+                <div class="modal-dialog ">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title mycolor">Add One Word Answer Type Question</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form action="/test/<%=test._id %>/question/oneword/add" method="post">
+                            <div class="modal-body">
+                                <label for="statement" class="form-label">Question Statement</label>
+                                <textarea name="statement" id="statement" rows="5" class="form-control mb-3"
+                                    required></textarea>
+                                <div class="mb-3">
+                                    <label for="image" class="form-label">Link to image</label>
+                                    <input type="url" name="image" id="image" class="form-control" autocomplete="off"
+                                        placeholder="https://example.com/images/sample-image">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="correct" class="form-label">Correct Answer</label>
+                                    <input type="text" name="correct" id="correct" class="form-control"
+                                        pattern="[A-Za-z0-9]*" autocomplete="off" required
+                                        placeholder="Correct Answer - One Word Only">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn modal-btn-close"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn modal-btn">Submit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        var questions;
+        $("document").ready(function () {
+            $.get("/test/<%=test._id%>/questions", function (data, status) {
+                if (!data.questions) {
+                    $("#questionDisplayArea").append('<h3 class="text-center user-select-none" style="color:gray;">' + data.msg + '</h3>')
+                }
+                else {
+                    questions = data.questions;
+                    var html = ""
+                    var i = 0;
+                    questions.forEach(question => {
+                        i++;
+                        var quesBlock = '<div class="question-block" id="ques-' + question._id + '"><div class="container"><div class="row"><div class="col align-self-start">'
+                        quesBlock += '<div class="question-statement">' + i + '. ' + question.statement + '</div>';
+                        quesBlock += '</div><div class="col align-self-end text-end">';
+                        quesBlock += '<a data-bs-toggle="modal" data-bs-target="#edit-' + question._id + '"><button><i class="fas fa-edit"></i></button></a>&nbsp&nbsp&nbsp'
+                        quesBlock += '<a data-bs-toggle="modal" data-bs-target="#delete-' + question._id + '"><button><i class="fas fa-trash-alt"></i></button><a>'
+                        quesBlock += '</div></div></div>'
+                        if (question.image) {
+                            quesBlock += '<div class="text-center question-image"><img src="' + question.image + '" class="img-fluid" loading="lazy" alt="Image for the question. In case not loaded, please check the image url."></div>';
+                        }
+                        if (question.questionType === "mcq4") {
+                            var answer = ["option-incorrect", "option-incorrect", "option-incorrect", "option-incorrect"];
+                            switch (parseInt(question.correct, 10)) {
+                                case 1: answer[0] = "option-correct"; break;
+                                case 2: answer[1] = "option-correct"; break;
+                                case 3: answer[2] = "option-correct"; break;
+                                case 4: answer[3] = "option-correct"; break;
+                            }
+                            quesBlock += '<div class="col-md-6 ' + answer[0] + '">i. ' + question.option1 + '</div>';
+                            quesBlock += '<div class="col-md-6 ' + answer[1] + '">ii. ' + question.option2 + '</div>';
+                            quesBlock += '<div class="col-md-6 ' + answer[2] + '">iii. ' + question.option3 + '</div>';
+                            quesBlock += '<div class="col-md-6 ' + answer[3] + '">iv. ' + question.option4 + '</div>';
+                        }
+                        else if (question.questionType === "mcq2") {
+                            answer = ["option-incorrect", "option-incorrect"];
+                            switch (parseInt(question.correct, 10)) {
+                                case 1: answer[0] = "option-correct"; break;
+                                case 2: answer[1] = "option-correct"; break;
+                            }
+                            quesBlock += '<div class="col-md-6 ' + answer[0] + '">i. ' + question.option1 + '</div>';
+                            quesBlock += '<div class="col-md-6 ' + answer[1] + '">ii. ' + question.option2 + '</div>';
+                        }
+                        else if (question.questionType === "oneword") {
+                            quesBlock += '<div class="option-correct">' + question.correct + '</div>';
+                        }
+                        quesBlock += '</div>';
+                        $("#questionDisplayArea").append(quesBlock);
+
+                        // Models to update question
+                        var modalBlock = '<div class="modal fade" id="edit-' + question._id + '" tabindex="-1"><div class="modal-dialog "><div class="modal-content"><div class="modal-header"><h5 class="modal-title mycolor">Update</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>';
+                        if (question.questionType === "mcq4") {
+                            modalBlock += '<form action="/test/' + question.test + '/question/mcq4/update/' + question._id + '" method="post"><div class="modal-body"><label for="statement" class="form-label">Question Statement</label><textarea name="statement" id="statement" rows="4" class="form-control mb-3" value="">' + question.statement + '</textarea>';
+                            modalBlock += '<div class="mb-3"><label for="image" class="form-label">Link to image</label><input type="url" name="image" id="image" class="form-control" autocomplete="off" placeholder="https://example.com/images/sample-image"';
+                            if (question.image) { modalBlock += 'value="' + question.image + '"' }
+                            modalBlock += '"></div>'
+                            modalBlock += '<div class="mb-3"><label for="option1" class="form-label">Option 1</label><input type="text" name="option1" id="option1" class="form-control" autocomplete="off" required value="' + question.option1 + '" placeholder="Option 1"></div>';
+                            modalBlock += '<div class="mb-3"><label for="option2" class="form-label">Option 2</label><input type="text" name="option2" id="option2" class="form-control" autocomplete="off" required value="' + question.option2 + '" placeholder="Option 2"></div>';
+                            modalBlock += '<div class="mb-3"><label for="option3" class="form-label">Option 3</label><input type="text" name="option3" id="option3" class="form-control" autocomplete="off" required value="' + question.option3 + '" placeholder="Option 3"></div>';
+                            modalBlock += '<div class="mb-3"><label for="option4" class="form-label">Option 4</label><input type="text" name="option4" id="option" class="form-control" autocomplete="off" required value="' + question.option4 + '" placeholder="Option 4"></div>';
+                            modalBlock += '<label for="correct" class="form-label">Correct Answer</label><select class="form-select " id="correct" name="correct">';
+                            var selected = ["", "", "", ""]
+                            if (question.correct === "1") { selected[0] = "selected" }
+                            else if (question.correct === "2") { selected[1] = "selected" }
+                            else if (question.correct === "3") { selected[2] = "selected" }
+                            else if (question.correct === "4") { selected[3] = "selected" }
+                            modalBlock += '<option value="1"' + selected[0] + '>Option 1</option><option value = "2" ' + selected[1] + ' > Option 2</option><option value="3" ' + selected[2] + ' > Option 3</option><option value="4" ' + selected[3] + ' > Option 4</option></select ></div>'
+                        }
+                        else if (question.questionType === "mcq2") {
+                            modalBlock += '<form action="/test/' + question.test + '/question/mcq2/update/' + question._id + '" method="post"><div class="modal-body"><label for="statement" class="form-label">Question Statement</label><textarea name="statement" id="statement" rows="4" class="form-control mb-3"required value="">' + question.statement + '</textarea>';
+                            modalBlock += '<div class="mb-3"><label for="image" class="form-label">Link to image</label><input type="url" name="image" id="image" class="form-control" autocomplete="off" placeholder="https://example.com/images/sample-image" value="';
+                            if (question.image) { modalBlock += 'value="' + question.image + '"' }
+                            modalBlock += '"></div>'
+                            modalBlock += '<div class="mb-3"><label for="option1" class="form-label">Option 1</label><input type="text" name="option1" id="option1" class="form-control" autocomplete="off" required value="' + question.option1 + '" placeholder="Option 1"></div>';
+                            modalBlock += '<div class="mb-3"><label for="option2" class="form-label">Option 2</label><input type="text" name="option2" id="option2" class="form-control" autocomplete="off" required value="' + question.option2 + '" placeholder="Option 2"></div>';
+                            modalBlock += '<label for="correct" class="form-label">Correct Answer</label><select class="form-select " id="correct" name="correct">';
+                            var selected = ["", ""]
+                            if (question.correct === "1") { selected[0] = "selected" }
+                            else if (question.correct === "2") { selected[1] = "selected"; }
+                            modalBlock += '<option value="1"' + selected[0] + '>Option 1</option><option value = "2" ' + selected[1] + ' > Option 2</option></select ></div>';
+                        }
+                        else if (question.questionType === "oneword") {
+                            modalBlock += '<form action="/test/' + question.test + '/question/oneword/update/' + question._id + '" method="post"><div class="modal-body"><label for="statement" class="form-label">Question Statement</label><textarea name="statement" id="statement" rows="4" class="form-control mb-3"required value="">' + question.statement + '</textarea>';
+                            modalBlock += '<div class="mb-3"><label for="image" class="form-label">Link to image</label><input type="url" name="image" id="image" class="form-control" autocomplete="off" placeholder="https://example.com/images/sample-image" value="';
+                            if (question.image) { modalBlock += 'value="' + question.image + '"' }
+                            modalBlock += '"></div>'
+                            modalBlock += '<div class="mb-3"><label for="correct" class="form-label">Correct Answer</label><input type="text" name="correct" id="correct" class="form-control" pattern="[A-Za-z0-9]*" autocomplete="off" value="' + question.correct + '" required placeholder="Correct Answer - One Word Only"></div>';
+                        }
+                        else if (question.questionType === "oneword") {
+                            modalBlock += '<form action="/test/' + question.test + '/question/subjective/update/' + question._id + '" method="post"><div class="modal-body"><label for="statement" class="form-label">Question Statement</label><textarea name="statement" id="statement" rows="4" class="form-control mb-3"required value="">' + question.statement + '</textarea>';
+                            modalBlock += '<div class="mb-3"><label for="image" class="form-label">Link to image</label><input type="url" name="image" id="image" class="form-control" autocomplete="off" placeholder="https://example.com/images/sample-image" value="';
+                            if (question.image) { modalBlock += 'value="' + question.image + '"'; }
+                            modalBlock += '"></div>';
+
+                        }
+                        modalBlock += '<div class="modal-footer"><button type="button" class="btn modal-btn-close" data-bs-dismiss="modal">Cancel</button><button type="submit" class="btn modal-btn">Update</button></div></form></div></div></div>';
+                        $("#mymodals").append(modalBlock)
+
+                        // Modal to delete question
+                        var modalBlock = '<div class="modal fade" id="delete-' + question._id + '" tabindex="-1"><div class="modal-dialog "><div class="modal-content"><div class="modal-header"><h5 class="modal-title mycolor">Delete</h5><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button></div>';
+                        modalBlock += '<form action="/test/' + question.test + '/question/delete/' + question._id + '" method="post"><div class="modal-body">';
+                        modalBlock += '<div class="form-check form-switch"><input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault' + i + '" required><label class="form-check-label" for="flexSwitchCheckDefault' + i + '">Yes, I am sure.</label></div>';
+                        modalBlock += '<div class="modal-footer"><button type="button" class="btn modal-btn-close" data-bs-dismiss="modal">Cancel</button><button type="submit" class="btn modal-btn">Delete</button></div></form></div></div></div>';
+                        $("#mymodals").append(modalBlock)
+                    });
+                }
+            });
+        });
+    </script>
+
+    <%- include("../partials/footer.ejs") %>

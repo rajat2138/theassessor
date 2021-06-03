@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
+    <title>Exam</title>
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar" style="padding-bottom: 5%;">
+        <h5 class="nav-head">The Assessor</h5>
+        <hr>
+    </div>
+
+    <!-- Student's and test's details -->
+    <div class="container">
+        <div class="row">
+            <div class="row">
+                <div class="col">
+                    Name
+                </div>
+                <div class="col">
+                    Section
+                </div>
+                <div class="col">
+                    Roll
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    Subject
+                </div>
+                <div class="col">
+                    Total Questions
+                </div>
+                <div class="col">
+                    Time Remaining
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Line Break -->
+    <div>
+        <br>
+        <hr>
+    </div>
+
+    <!-- Buttons and Questions -->
+    <div class="container">
+        <div class="row">
+            <div class="col-3" id="questionButtons">
+                Navigator
+            </div>
+            <div class="col" id="questionContent">
+                <div class="row" id="questionStatement">
+
+                </div>
+                <div class="row" id="options">
+
+                </div>
+                <div class="row" id="questionSave">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    function changeContent(quesNo, questions, n){
+        document.getElementById("questionStatement").innerHTML=`<h5>Question ${quesNo}</h5><p>${questions[quesNo-1]["statement"]}</p>`;
+        var options=questions[quesNo-1]["options"];
+        var displayOptions=document.getElementById("options");
+        displayOptions.innerHTML=null;
+        for (var j = 1; j <=options.length; j++) {
+            console.log(j);
+            var newOption=document.createElement("div");
+            newOption.className="option";
+            newOption.innerHTML=`<input type="radio" name="ques${quesNo}" id="option${j}" required><label for="option${j}">${options[j-1]}</label>`;
+            displayOptions.appendChild(newOption)
+        }
+        var quesContent= document.getElementById("questionSave");
+        quesContent.innerHTML=null;
+        var saveBtn=document.createElement("BUTTON");
+        saveBtn.className="saveAnswer";
+        // <!-- Save Answer Function-->
+        saveBtn.onclick=function(quesNo, questions, n){
+            alert("Answer Saved");
+        }
+        saveBtn.innerHTML="Save";
+        quesContent.appendChild(saveBtn)
+    }
+
+    const questions = [
+        {
+            "statement": "Solar energy is _________ source of energy.",
+            "options": ["renewable", "non-renewable", "both", "none"]
+        },
+        {
+            "statement": "Wind energy is _________ source of energy.",
+            "options": ["non-renewable", "renewable", "none of these"]
+        },
+        {
+            "statement": "Fossil Fuels are _________ source of energy.",
+            "options": ["non-renewable", "renewable"]
+        }
+    ];
+    const n = questions.length;
+    var btns=document.getElementById("questionButtons");
+    for (var j = 1; j <=n; j++) {
+        var newBtn = document.createElement("div"); 
+        newBtn.className="col"
+        newBtn.innerHTML = `<button onclick="changeContent(${j},questions,n)" id="ques${j}">${j}</button>`;
+        btns.appendChild(newBtn); 
+    }
+
+    changeContent(1,questions,n)
+    
+    </script>
