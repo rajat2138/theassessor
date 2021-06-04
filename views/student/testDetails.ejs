@@ -50,7 +50,7 @@
             <div class="col-md-4 fs-3" id="resultMsg"></div>
         </div>
         <% const currTime=new Date().valueOf() 
-         var startTime= test.startTime.valueOf()+parseInt(test.duration,10)*60000  %> 
+         var startTime= test.startTime.valueOf()+(parseInt(test.duration,10)+parseInt(test.windowTime,10))*60000  %> 
         <div class="container" id="aboveQuestionArea">
             <div class="row">
                 <%  if (startTime>currTime) { %>
@@ -145,8 +145,14 @@
                     });
                     $.get("/student/api/test/results/<%=test._id %>", function(data,status){
                         if(data.msg==="success"){
-                            $("#score").append('Score : <b class="myorangecolor">'+data.resultData.score+'</b>');
-                            $("#ap").append('Accessor Points : <b class="myorangecolor">'+data.resultData.ap+'</b>');
+                            var score = data.resultData.score
+                            if(score){
+                                $("#score").append('Score : <b class="myorangecolor">'+score+'</b>');
+                            }
+                            var ap = data.resultData.ap
+                            if(ap){
+                                $("#ap").append('Accessor Points : <b class="myorangecolor">'+ap+'</b>');
+                            }
                         }
                         else{
                             $("#resultMsg").append(data.msg);

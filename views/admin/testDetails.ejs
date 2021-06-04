@@ -291,7 +291,7 @@
                             quesBlock += '<div class="col-md-6 ' + answer[1] + '">ii. ' + question.option2 + '</div>';
                         }
                         else if (question.questionType === "oneword") {
-                            quesBlock += '<div class="option-correct">' + question.correct + '</div>';
+                            quesBlock += '<div class="option-correct">Answer : ' + question.correct + '</div>';
                         }
                         quesBlock += '</div>';
                         $("#questionDisplayArea").append(quesBlock);

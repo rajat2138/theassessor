@@ -27,13 +27,11 @@ module.exports = (app) => {
                 $gte: datetime
             }
         }
-        console.log(filter);
         Test.find(filter, function (err, tests) {
             if (err) {
                 res.status(200).json({ msg: "Error" })
             }
             else {
-                console.log(tests);
                 if (tests.length == 0) {
                     res.status(200).json({ "msg": "No Upcoming Test" })
                 }
@@ -169,6 +167,7 @@ module.exports = (app) => {
                                         const timeRemaining = test.startTime.valueOf() + parseInt(test.windowTime) * 60 * 1000 - currTime;
                                         if (timeRemaining > 10000) {
                                             const endTime = new Date(currTime + parseInt(test.duration) * 60 * 1000)
+                                            console.log(endTime);
                                             const newParticipation = new Participation({
                                                 test: testId,
                                                 student: user._id,
@@ -203,7 +202,7 @@ module.exports = (app) => {
                             })
                         }
                         else {
-                            res.status(200).send({ "msg": "Time's Up" })
+                            res.status(200).send({ "msg": "Not a valid time" })
                         }
                     }
                 }
