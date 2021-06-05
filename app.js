@@ -26,9 +26,13 @@ app.get("/",(req,res)=>{
 
 // Below Function to test if there exist user login
 
-const ensuredLogin = require("./functions/ensuredLogin")
-app.get("/user",ensuredLogin,function(req,res){
-  res.send(req.user)
+
+
+app.get("/currDateTime",function(req,res){
+  const currDateTime = new Date()
+  res.send({
+    "Date" : currDateTime
+  })
 })
 
 
