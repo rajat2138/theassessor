@@ -317,7 +317,7 @@
                         }
                         else if (question.questionType === "mcq2") {
                             modalBlock += '<form action="/test/' + question.test + '/question/mcq2/update/' + question._id + '" method="post"><div class="modal-body"><label for="statement" class="form-label">Question Statement</label><textarea name="statement" id="statement" rows="4" class="form-control mb-3"required value="">' + question.statement + '</textarea>';
-                            modalBlock += '<div class="mb-3"><label for="image" class="form-label">Link to image</label><input type="url" name="image" id="image" class="form-control" autocomplete="off" placeholder="https://example.com/images/sample-image" value="';
+                            modalBlock += '<div class="mb-3"><label for="image" class="form-label">Link to image</label><input type="url" name="image" id="image" class="form-control" autocomplete="off" placeholder="https://example.com/images/sample-image"';
                             if (question.image) { modalBlock += 'value="' + question.image + '"' }
                             modalBlock += '"></div>'
                             modalBlock += '<div class="mb-3"><label for="option1" class="form-label">Option 1</label><input type="text" name="option1" id="option1" class="form-control" autocomplete="off" required value="' + question.option1 + '" placeholder="Option 1"></div>';
@@ -330,7 +330,7 @@
                         }
                         else if (question.questionType === "oneword") {
                             modalBlock += '<form action="/test/' + question.test + '/question/oneword/update/' + question._id + '" method="post"><div class="modal-body"><label for="statement" class="form-label">Question Statement</label><textarea name="statement" id="statement" rows="4" class="form-control mb-3"required value="">' + question.statement + '</textarea>';
-                            modalBlock += '<div class="mb-3"><label for="image" class="form-label">Link to image</label><input type="url" name="image" id="image" class="form-control" autocomplete="off" placeholder="https://example.com/images/sample-image" value="';
+                            modalBlock += '<div class="mb-3"><label for="image" class="form-label">Link to image</label><input type="url" name="image" id="image" class="form-control" autocomplete="off" placeholder="https://example.com/images/sample-image"';
                             if (question.image) { modalBlock += 'value="' + question.image + '"' }
                             modalBlock += '"></div>'
                             modalBlock += '<div class="mb-3"><label for="correct" class="form-label">Correct Answer</label><input type="text" name="correct" id="correct" class="form-control" pattern="[A-Za-z0-9]*" autocomplete="off" value="' + question.correct + '" required placeholder="Correct Answer - One Word Only"></div>';
