@@ -112,6 +112,10 @@ function getResults(questions, answers, participations, testDuration) {
     stMap = {}; // Students to test time map
     
     participations.forEach(p =>{
+        var timeTaken =p.timeTaken
+        if (timeTaken==undefined || timeTaken=="" || timeTaken==null) {
+            timeTaken=p.duration*60*1000;
+        }
         scoreMap[p.student]=0;
         spMap[p.student]=0;
         snMap[p.student]=0;

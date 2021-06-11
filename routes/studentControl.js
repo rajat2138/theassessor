@@ -414,7 +414,7 @@ module.exports = (app) => {
                         res.status(200).json({ "msg": "success", "resultData": data })
                     }
                     else {
-                        res.status(200).json({ "msg": "You did not participate" })
+                        res.status(200).json({ "msg": "Yet to participate" })
                     }
                 }
             })

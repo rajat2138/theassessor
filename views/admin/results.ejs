@@ -34,7 +34,7 @@
                     var results=data.resultData
                     var i = 0;
                     results.sort(function (a, b) {
-                        return a.score - b.score;
+                        return b.score - a.score;
                     });
                     results.forEach(data => {
                         i++;
