@@ -17,6 +17,7 @@ body{
 }
 .about-item{
     padding: 3%;
+    margin-top: 2%;
 }
 /* id */
 /* #about{
@@ -135,6 +136,9 @@ body{
 .black-text{
     color: black;
 }
+.white-text{
+    color: rgb(238, 222, 211);
+}
 .student-card{
     margin-top: 1%;
     margin-right: 1%;
@@ -190,13 +194,11 @@ body{
 
 #unauth-navbar{
     /* background-color:black; */
-    background-color: #0f2a4a;
 }
-#admin-home{
-    margin-top: 1%;
+#home-content{
+    margin-top: 2%;
     padding: 2%;
 }
-
 #testDetails{
     margin-top: 3%;
     /* background-color: #b6a3a3; */
