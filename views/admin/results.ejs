@@ -13,9 +13,12 @@
                             <th scope="col-4 cell">Email</th>
                             <th scope="col cell">Class</th>
                             <th scope="col cell">Section</th>
-                            <th scope="col cell">Roll</th>
-                            <th scope="col cell">Score</th>
-                            <th scope="col cell">AP</th>
+                            <th scope="col cell">Roll <button class="sort-btn" onclick="sortByRoll()"><i
+                                        class="fas fa-sort"></i></button></th>
+                            <th scope="col cell">Score <button class="sort-btn" onclick="sortByScore()"><i
+                                class="fas fa-sort"></i></button></th>
+                            <th scope="col cell">AP <button class="sort-btn" onclick="sortByAP()"><i
+                                class="fas fa-sort"></i></button></th>
                         </tr>
                     </thead>
                     <tbody id="tableBody">
@@ -28,28 +31,62 @@
     </div>
 
     <script>
+        var results;
         $("document").ready(function () {
-            $.get("/institute/api/test/results/<%= testId %>", function(data,status) {
+            $.get("/institute/api/test/results/<%= testId %>", function (data, status) {
                 if (data.msg === "success") {
-                    var results=data.resultData
-                    var i = 0;
-                    results.sort(function (a, b) {
-                        return b.score - a.score;
-                    });
-                    results.forEach(data => {
-                        i++;
-                        createRow(data, i)
-                    });
+                    results = data.resultData
+                    sortByScore()
                 }
                 else {
-                    $("#msg").append('<h3 class="text-center user-select-none" style="color:gray;margin-top:2%;">'+data.msg+'</h3>');
+                    $("#msg").append('<h3 class="text-center user-select-none" style="color:gray;margin-top:2%;">' + data.msg + '</h3>');
                 }
             })
         })
-        // 
+        //
 
-        function createRow(data, i){
-            var student=data.student
+        function sortByRoll() {
+            if (results!=undefined) {
+                results.sort(function (a, b) {
+                    return a.roll - b.roll;
+                });
+                var i = 0;
+                document.getElementById("tableBody").innerHTML=""
+                results.forEach(data => {
+                    i++;
+                    createRow(data, i)
+                });
+            }
+        }
+        function sortByScore() {
+            if (results!=undefined) {
+                results.sort(function (a, b) {
+                    return b.score - a.score;
+                });
+                var i = 0;
+                document.getElementById("tableBody").innerHTML=""
+                results.forEach(data => {
+                    i++;
+                    createRow(data, i)
+                });
+            }
+        }
+        function sortByAP() {
+            if (results !=undefined) {
+                results.sort(function (a, b) {
+                    return b.ap - a.ap;
+                });
+                var i = 0;
+                document.getElementById("tableBody").innerHTML=""
+                results.forEach(data => {
+                    i++;
+                    createRow(data, i)
+                });
+            }
+        }
+
+        function createRow(data, i) {
+            var student = data.student
             var block = '<tr>';
             block += '<td scope="col-1" class="cell">' + i + '.</td>';
             block += '<td scope="col-3" class="cell"><img src="' + student.picture + '" alt="Picture" width="50" height="50" loading="lazy" class="d-inline-block align-text-top rounded-circle img-zoom-on-hover" ></td > ';
