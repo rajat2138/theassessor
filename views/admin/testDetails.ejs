@@ -293,6 +293,9 @@
                         else if (question.questionType === "oneword") {
                             quesBlock += '<div class="option-correct">Answer : ' + question.correct + '</div>';
                         }
+                        if(question.correctAttempts != undefined & question.toatalAttempts != undefined){
+                            quesBlock += '<div class=row>Accuracy : '+question.correctAttempts+'/'+question.toatalAttempts+'<div>'
+                       }
                         quesBlock += '</div>';
                         $("#questionDisplayArea").append(quesBlock);
 
