@@ -12,6 +12,13 @@ a.navbar-brand{
     font-size: 3vw;
 }
 
+.logo{
+    max-width: 60px;
+    max-height: 60px;
+    min-width: 35px;
+    min-height: 35px;
+}
+
 /* class */
 .icon-card{
     padding-top: 5%;

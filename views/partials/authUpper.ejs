@@ -34,9 +34,9 @@
         <nav class="shadow-lg p-15 mb-1 rounded navbar navbar-expand-lg navbar-dark bg-success">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/loginControl">
-                    <img src="<%= user.instituteLogo %> " alt="Logo" width="10%" height="10%"
-                        class="d-inline-block align-text-top rounded-circle">
-                    <p class="d-inline-block align-text-top responsive-text cell" style="padding-left:2%;">
+                    <img src="<%= user.instituteLogo %> " alt="Logo" width="6%" height="6%"
+                        class="d-inline-block align-text-top rounded-circle logo">
+                    <p class="d-inline-block align-text-top responsive-text align-bottom" style="padding-left:2%;">
                         <%= user.instituteName %>
                     </p>
                 </a>
@@ -45,25 +45,27 @@
                         <div class="container-fluid">
                             <a class="navbar-brand" href="#">
                                 <img src="/images/logo-white.png" alt="Logo" width="6%" height="6%"
-                                    class="d-inline-block align-text-top">
-                                <p class="d-inline-block align-text-top responsive-text" style="padding-left: 2%;">The
+                                    class="d-inline-block align-text-top logo">
+                                <p class="d-inline-block align-text-top responsive-text align-bottom" style="padding-left: 2%;">The
                                     Assesor</p>
                             </a>
                             <% } %>
                                 <button class="navbar-toggler" data-bs-toggle="collapse"
                                     data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
                                     aria-expanded="false" aria-label="Toggle navigation">
-                                    <!-- <span class="navbar-toggler-icon"></span> -->
-                                    <img src="<%= user.picture%>" alt="" width="60%" height="60%" loading=lazy
-                                        class="d-inline-block align-text-top rounded-circle">
+                                    <span class="navbar-toggler-icon"></span>
                                 </button>
                                 <ul class="navbar-nav ml-* justify-content-end collapse navbar-collapse"
                                     id="navbarNavAltMarkup">
-                                    <li><a class="nav-link" href="/">About The Platform</a></li>
                                     <li><a class="nav-link" href="/loginControl">Home</a></li>
-                                    <li><a class="nav-link" href="/logout">Logout</a></li>
-                                    <li><img src="<%= user.picture%>" alt="" width="60%" height="60%" loading=lazy
-                                            class="d-inline-block align-text-top rounded-circle d-none d-lg-block"></li>
+                                    <li><a class="nav-link" href="/">About The Platform</a></li>
+                                    <li><div class="row">
+                                        <div class="col"><a class="nav-link" href="/logout"> <div class="text-end">Logout</div></a>
+                                            </div>
+                                            <div class="col"><img src="<%= user.picture%>" alt="" width="60%" height="80%" loading=lazy
+                                            class="d-inline-block align-text-top rounded-circle logo"></div>
+                                    </div></li>
+                                    
                                     <!-- <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         
