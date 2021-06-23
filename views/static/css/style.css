@@ -4,12 +4,14 @@ body{
     background-color:whitesmoke;
     /* color: rgb(247, 142, 102) */
     color: #e85723;
+    min-height: 100vh;
+    position: relative;
 }
 a.navbar-brand{
     display: contents;
 }
 .responsive-text{
-    font-size: 3vw;
+    font-size: calc(1.8vw + 1vh + 1vmin);
 }
 
 .logo{
@@ -22,7 +24,7 @@ a.navbar-brand{
 /* class */
 .icon-card{
     padding-top: 5%;
-    color: #0f2a4a;
+    color: #9c6b3e;
 }
 .about-item{
     padding: 3%;
