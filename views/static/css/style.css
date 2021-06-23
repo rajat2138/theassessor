@@ -5,7 +5,9 @@ body{
     /* color: rgb(247, 142, 102) */
     color: #e85723;
 }
-
+a.navbar-brand{
+    display: contents;
+}
 .responsive-text{
     font-size: 3vw;
 }
