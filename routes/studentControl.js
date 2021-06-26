@@ -217,7 +217,7 @@ module.exports = (app) => {
         res.render("./student/testMode", { user: req.user[0], participationId: req.params.participationId })
     })
 
-    app.get("/student/test/continue/:participationId", function (req, res) {
+    app.get("/student/test/continue/:participationId", ensureStudent, function (req, res) {
         if (isValidObjectId(req.params.participationId)) {
             const participationId = mongoose.Types.ObjectId(req.params.participationId)
             Participation.findById(participationId, function (err, participation) {
@@ -269,7 +269,7 @@ module.exports = (app) => {
         }
     })
 
-    app.post("/student/test/end/:participationId", function (req, res) {
+    app.post("/student/test/end/:participationId", ensureStudent, function (req, res) {
         const currTime = new Date();
         if (isValidObjectId(req.params.participationId)) {
             const participationId = mongoose.Types.ObjectId(req.params.participationId)
