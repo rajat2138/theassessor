@@ -134,6 +134,7 @@ function getResults(questions, answers, participations, testDuration) {
         }
     })
 
+    totalQuestion=questions.length
     // update Question's Correct and Total Attemmpts
     quesUpdates=[]
     questions.forEach(ques => {
@@ -170,6 +171,7 @@ function getResults(questions, answers, participations, testDuration) {
         // ap = (positive*duration - negative*timeTaken)/(noq*10) normalize to 100
         var ap = Math.round(((parseInt(spMap[p.student],10)*parseInt(testDuration*60000,10) - parseInt(snMap[p.student],10)*parseInt(stMap[p.student],10))/(questions.length*10*parseInt(testDuration*60000,10)))*100)
         if(ap<0){ ap=0;}
+        if(ap==undefined || isNaN(ap) || ap==null ){ ap=scoreMap[p.student]*(100/totalQuestion);}
         studentUpdates.push({
             _id : p._id,
             student : p.student,
