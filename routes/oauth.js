@@ -8,7 +8,7 @@ const User = require("../models/userModel");
 module.exports = (app)=>{
     // cookieSession config
     app.use(cookieSession({
-        maxAge: 2 * 60 * 60 * 1000, // Two Hour Session Limit
+        maxAge: 10 *24 * 60 * 60 * 1000, // Two Hour Session Limit
         keys: [process.env.SESSION_SECRET]
     }));
 
