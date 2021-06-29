@@ -5,3 +5,4 @@ npm-debug.log
 /ZZZ-Demo-google-oauth
 /ZZZ-Dumps
 /*.env
+/logs-heroku
