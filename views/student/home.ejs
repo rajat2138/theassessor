@@ -139,8 +139,8 @@
                 if (mins < 10) { mins = "0" + mins; }
                 block += '<div class="col-lg-4 col-md-6 col-sm-6">Date : ' + date + '/' + month + '/' + year + '</div>';
                 block += '<div class="col-lg-4 col-md-6 col-sm-6">Time : ' + hour + ' : ' + mins + x + '</div>';
-                block += '<div class="col-lg-4 col-md-6 col-sm-6">Window Time : ' + test.windowTime + '</div>';
-                block += '<div class="col-lg-4 col-md-6 col-sm-6">Duration  : ' + test.duration + '</div>';
+                block += '<div class="col-lg-4 col-md-6 col-sm-6">Window Time : ' + test.windowTime + ' mins</div>';
+                block += '<div class="col-lg-4 col-md-6 col-sm-6">Duration  : ' + test.duration + ' mins</div>';
                 block += '<div class="col-lg-4 col-md-6 col-sm-6">';
                 block += '<a href="/student/test/' + test._id + '" class="btn btn-outline-warning btn-sm stretched-link">Go to this Test</a></div></div></div>'
                 $("#testDisplayArea").append(block);
