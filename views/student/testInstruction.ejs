@@ -1,4 +1,4 @@
-<% var d=test.startTime; var date=d.getDate(); var month=d.getMonth(); var year=d.getFullYear(); var hour=d.getHours();
+<% var d=test.startTime; var date=d.getDate(); var month=d.getMonth()+1; var year=d.getFullYear(); var hour=d.getHours();
     var mins=d.getMinutes(); var x=" AM" ; if(date<10){date="0" +date;} if(month<10){month="0" +month;} if(hour>12 )
     {hour=hour-12; x=" PM";}
     if(hour<10){hour="0"+hour;} if(mins<10){mins="0" +mins;} var section=test.section; if(section==="all"

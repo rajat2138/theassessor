@@ -49,7 +49,7 @@
             var block = '<div class="shadow-sm p-3 mb-1 bg-body position-relative border rounded-1 lh-base upcoming-test-block"><div class="row">';
             block += '<div class="col-lg-4 col-md-6 col-sm-6">Subject : ' + test.subject + '</div>';
             var section = test.section;
-            var d = new Date(test.startTime); var date = d.getDate(); var month = d.getMonth(); var year = d.getFullYear();
+            var d = new Date(test.startTime); var date = d.getDate(); var month = d.getMonth()+1; var year = d.getFullYear();
             var hour = d.getHours(); var mins = d.getMinutes(); var x = " AM";
             if (date < 10) { date = "0" + date; }
             if (month < 10) { month = "0" + month; }
