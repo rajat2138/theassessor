@@ -447,19 +447,19 @@ module.exports = (app) => {
                         stars=2 
                         level="Intermediate"
                     }
-                    else if(ap<250) {
+                    else if(ap<175) {
                         stars=3
                         level="Specialist"
                     }
-                    else if(ap<500) {
+                    else if(ap<275) {
                         stars=4 
                         level="Expert"
                     }
-                    else if(ap<1000) {
+                    else if(ap<400) {
                         stars=5
                         level="Master"
                     }
-                    else if(ap<2500) {
+                    else if(ap<550) {
                         stars=6
                         level="Grandmaster"
                     }
