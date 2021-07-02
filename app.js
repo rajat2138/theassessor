@@ -42,3 +42,4 @@ require("./routes/instituteUtilities.js")(app);
 require("./routes/test.js")(app);
 require("./routes/question.js")(app);
 require("./routes/studentControl.js")(app);
+require("./routes/checker.js")(app);

@@ -135,6 +135,9 @@
                                     quesBlock += '<div class="option-correct">Correct Answer : ' + question.correct + '</div>';
                                     savedAnswerForThisQuestion = savedAnswers[question._id]
                                 }
+                                if(question.correctAttempts != undefined & question.toatalAttempts != undefined){
+                                    quesBlock += '<div class=row style="margin-left:4%;">Accuracy : '+question.correctAttempts+'/'+question.toatalAttempts+'<div>'
+                                }
                                 if (!(savedAnswerForThisQuestion === "" || savedAnswerForThisQuestion === undefined || savedAnswerForThisQuestion === null)) {
                                     quesBlock += '<div class="row mycolor fs-5 margin-left">Your Answer : '+savedAnswerForThisQuestion+'</div';
                                 }
