@@ -19,9 +19,9 @@
             </div>
             <div class="col-md-4">
 
-                <% var d=test.startTime; var date=d.getDate(); var month=d.getMonth()+1; var year=d.getFullYear(); var
+                <% var d=test.startTime;var date=d.getDate(); var month=d.getMonth()+1; var year=d.getFullYear(); var
                     hour=d.getHours(); var mins=d.getMinutes(); var x=" AM" ; if(date<10){date="0" +date;}
-                    if(month<10){month="0" +month;} if(hour>12 ) {hour=hour-12; x=" PM";}
+                    if(month<10){month="0" +month;} if(hour>12 ) {hour=hour-12; x=" PM";}if(hour==12 ) {x=" PM";}
                     if(hour<10){hour="0"+hour;} if(mins<10){mins="0" +mins;} %>
                         Date : <b>
                             <%= date+"/"+month+"/"+year %>
@@ -260,7 +260,7 @@
                     questions.forEach(question => {
                         i++;
                         var quesBlock = '<div class="question-block" id="ques-' + question._id + '"><div class="container"><div class="row"><div class="col align-self-start">'
-                        quesBlock += '<div class="question-statement">' + i + '. ' + question.statement + '</div>';
+                        quesBlock += '<div class="question-statement">' + i + '. ' + question.statement.replaceAll('\n', '<br>') + '</div>';
                         quesBlock += '</div><div class="col align-self-end text-end">';
                         quesBlock += '<a data-bs-toggle="modal" data-bs-target="#edit-' + question._id + '"><button><i class="fas fa-edit"></i></button></a>&nbsp&nbsp&nbsp'
                         quesBlock += '<a data-bs-toggle="modal" data-bs-target="#delete-' + question._id + '"><button><i class="fas fa-trash-alt"></i></button><a>'

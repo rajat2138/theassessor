@@ -21,7 +21,7 @@
 
                 <% var d=test.startTime; var date=d.getDate(); var month=d.getMonth()+1; var year=d.getFullYear(); var
                     hour=d.getHours(); var mins=d.getMinutes(); var x=" AM" ; if(date<10){date="0" +date;}
-                    if(month<10){month="0" +month;} if(hour>12 ) {hour=hour-12; x=" PM";}
+                    if(month<10){month="0" +month;} if(hour>12 ) {hour=hour-12; x=" PM";} if(hour==12 ) {x=" PM";}
                     if(hour<10){hour="0"+hour;} if(mins<10){mins="0" +mins;} %>
                         Date : <b>
                             <%= date+"/"+month+"/"+year %>
@@ -94,7 +94,7 @@
                                 i++;
                                 var savedAnswerForThisQuestion="";
                                 var quesBlock = '<div class="question-block" id="ques-' + question._id + '"><div class="container"><div class="row"><div class="col align-self-start">'
-                                quesBlock += '<div class="question-statement">' + i + '. ' + question.statement + '</div>';
+                                quesBlock += '<div class="question-statement">' + i + '. ' + question.statement.replaceAll('\n', '<br>') + '</div>';
                                 quesBlock += '</div></div></div>'
                                 if (question.image) {
                                     quesBlock += '<div class="text-center question-image"><img src="' + question.image + '" class="img-fluid" loading="lazy" alt="Image for the question. In case not loaded, please check the image url."></div>';

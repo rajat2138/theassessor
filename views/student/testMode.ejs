@@ -183,7 +183,7 @@
             var j = parseInt(i) + 1
             var k = parseInt(i) - 1
             $("#quesNo").html('<h5>Question #' + j + '</h5><hr>');
-            $("#quesStatement").html('<h3 class="user-select-none">' + ques.statement + '</h3>')
+            $("#quesStatement").html('<h3 class="user-select-none">' + ques.statement.replaceAll('\n', '<br>') + '</h3>')
             if (ques.image) {
                 $("#quesImage").html('<div class="text-center question-image"><img src="' + ques.image + '" class="img-fluid" loading="lazy" alt="Image unavailable or bad link"></div>')
             }
