@@ -257,4 +257,48 @@ module.exports = (app) => {
         }
     })
 
+    app.get("/test/attendees/:testId", ensureAdmin, function (req, res) {
+        if (isValidObjectId(req.params.testId)) {
+            const institute = mongoose.Types.ObjectId(req.user[0]._id)
+            const testId = mongoose.Types.ObjectId(req.params.testId)
+            Test.findOne({ _id: testId, institute: institute }, function (err, test) {
+                if (err) {
+                    res.render("custom", { user: req.user[0], msg: "Some Error Occured" })
+                }
+                else {
+                    if (!test) {
+                        res.render("custom", { user: req.user[0], msg: "Test not found" })
+                    }
+                    else {
+                        res.render("./admin/attendees", {user:req.user[0], testId:test._id})
+                    }
+                }
+            })
+        }
+        else {
+            res.render("custom", { user: req.user[0], msg: "Not a valid test id" })
+        }
+    })
+
+    app.get("/institute/api/test/attendees/:testId", ensureAdmin, function(req,res){
+        if(isValidObjectId(req.params.testId)){
+        const testId = mongoose.Types.ObjectId(req.params.testId)
+        Participation.find({ test: testId }).populate("student").exec(function (err, data) {
+            if (err) {
+                res.send(err)
+            }
+            else {
+                var count = 0, length = data.length, sendingData = [];
+                data.forEach(d => {
+                    sendingData.push(d.student)
+                    count++;
+                    if (length === count) {
+                        res.send({"msg":"success","sendingData":sendingData})
+                    }
+                })
+            }
+        })
+        }
+    })
+
 }

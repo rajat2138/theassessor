@@ -53,9 +53,13 @@
                 </div>
                 <div class="col align-self-end text-end dropdown">
                     <% const currTime=new Date().valueOf() 
-                        if (test.startTime.valueOf()+parseInt(test.duration,10)*60000+60000<currTime ) { %>
+                        if (test.startTime.valueOf()+parseInt(test.duration,10)*60000<currTime ) { %>
                         <a href="/test/results/<%= test._id %>" class="text-center">
                             <button class="btn modal-btn">Results</button></a>
+                        <% } 
+                        if (test.startTime.valueOf()<currTime) { %>
+                        <a href="/test/attendees/<%= test._id %>" class="text-center">
+                            <button class="btn modal-btn">Attendees</button></a>
                         <% } %>
                         <button class="btn mybtn dropdown-toggle" data-bs-toggle="dropdown" id="addQuestionDropdown"
                             aria-expanded="false">
