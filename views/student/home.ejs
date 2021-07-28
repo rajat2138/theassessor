@@ -76,6 +76,22 @@
                     </div>
                 </div>
             </div>
+            <div class="col-lg-3 col-md-3 col-sm-12">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <div class="card mycard">
+                        <div class="card-body">
+                            <h5 class="card-title mybluecolor text-center">Profile</h5>
+                            <div class="card-subtitle mb-2 text-muted">
+                                <hr>
+                                <p id="StudentName"></p>
+                                <p id="StudentClass"></p>
+                                <p id="StudentSection"></p>
+                                <p id="StudentRoll"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -120,6 +136,15 @@
                             $("#star" + i).addClass('star-bright')
                         }
                         $("#ap").append('Assessor Points : ' + data.rating)
+                    }
+                })
+
+                $.get("/student/api/profile", function (data, status) {
+                    if (data.msg === "success") {
+                        $("#StudentName").append("Name - "+data.name);
+                        $("#StudentClass").append("Class - "+data.class);
+                        $("#StudentSection").append("Section - "+data.section);
+                        $("#StudentRoll").append("Roll - "+data.roll); 
                     }
                 })
 

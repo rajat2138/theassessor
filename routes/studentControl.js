@@ -475,4 +475,20 @@ module.exports = (app) => {
             }
         })
     })
+    app.get("/student/api/profile", ensureStudent, function (req, res) {
+        const student = mongoose.Types.ObjectId(req.user[0]._id)
+        User.findOne({ _id: student },function (err, data) {
+            if (err) {
+                res.status(200).json({ "msg": "Error Occurred" })
+            }
+            else {
+                if(data) {
+                    res.status(200).json({ "msg": "success", "name": data.name, "class" : data.class, "section" : data.section, "roll" : data.roll })
+                }
+                else {
+                    res.status(200).json({ "msg": "Null" })
+                }
+            }
+        })
+    })
 }
