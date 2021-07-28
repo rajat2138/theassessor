@@ -50,7 +50,8 @@ module.exports = (app) => {
                         student : req.user[0]._id,
                         class: req.body.studentClass,
                         section: req.body.studentSection,
-                        roll: req.body.studentRoll
+                        roll: req.body.studentRoll,
+                        sname : req.body.sname
                     })
                     newRequest.save(function (err) {
                         if (err) {

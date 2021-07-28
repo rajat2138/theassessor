@@ -80,6 +80,7 @@ module.exports = (app) => {
                     if (request.institute == req.user[0]._id) {
                         const update = {
                             role: "student",
+                            name : request.sname,
                             class: request.class,
                             section: request.section,
                             roll: request.roll,
@@ -298,6 +299,51 @@ module.exports = (app) => {
                 })
             }
         })
+        }
+        else{
+            res.render("custom", { user: req.user[0], msg: "Not a valid test id" }) 
+        }
+    })
+
+    app.get("/student/profile/edit/:studentId", ensureAdmin, function(req,res) {
+        if(isValidObjectId(req.params.studentId)){
+            const studentId = mongoose.Types.ObjectId(req.params.studentId)
+            User.findById(studentId, function(err,student){
+                if(err){
+                    res.render("custom", { user: req.user[0], msg: "Error in accessing student's details" }) 
+                }
+                else{
+                    res.render("./admin/editStudent", {"student" : student, "user" : req.user[0]})
+                }
+            })
+            
+        }
+        else{
+            res.render("custom", { user: req.user[0], msg: "Not a valid student" }) 
+        }
+    })
+
+    app.post("/student/profile/edit/:studentId", ensureAdmin, function(req,res) {
+        if(isValidObjectId(req.params.studentId)){
+            const studentId = mongoose.Types.ObjectId(req.params.studentId)
+            const userUpdate = {
+                name : req.body.sname,
+                class : req.body.studentClass,
+                roll : req.body.studentRoll,
+                section : req.body.studentSection
+            }
+            User.updateOne({_id: studentId}, {"$set" : userUpdate}, function(err,student){
+                if(err){
+                    res.render("custom", { user: req.user[0], msg: "Error in accessing student's details" }) 
+                }
+                else{
+                    res.redirect("/institute")
+                }
+            })
+            
+        }
+        else{
+            res.render("custom", { user: req.user[0], msg: "Not a valid student" }) 
         }
     })
 

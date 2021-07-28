@@ -6,7 +6,8 @@ const requestSchema = new mongoose.Schema({
     institute: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     class : String,
     section : String,
-    roll : String
+    roll : String,
+    sname : String
 });
 
 const Request = mongoose.model("Request", requestSchema);

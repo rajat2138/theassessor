@@ -40,6 +40,11 @@
                     <%= test.duration %> minutes
                 </b>
             </div>
+            <div class="col-md-4">
+                Test ID : <b>
+                    <%= test._id %>
+                </b>
+            </div>
             <div class="col-md-8">
                 Description : <%= test.description %>
             </div>
@@ -74,7 +79,7 @@
                                     Type</a>
                             </li>
                             <li><a class="dropdown-item" data-bs-toggle="modal"
-                                    data-bs-target="#subjective">Subjective </a>
+                                    data-bs-target="#importQuestions">Import Questions </a>
                             </li>
                         </ul>
                 </div>
@@ -186,27 +191,24 @@
                 </div>
             </div>
 
-            <div class="modal fade" id="subjective" tabindex="-1">
+            <div class="modal fade" id="importQuestions" tabindex="-1">
                 <div class="modal-dialog ">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title mycolor">Add Subjective Question </h5>
+                            <h5 class="modal-title mycolor">Import Questions From A Previous Test </h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <form action="/test/<%=test._id %>/question/subjective/add" method="post">
+                        <form action="/test/<%=test._id %>/question/copy/" method="post">
                             <div class="modal-body">
-                                <label for="statement" class="form-label">Question Statement</label>
-                                <textarea name="statement" id="statement" rows="5" class="form-control mb-3"
-                                    required></textarea>
                                 <div class="mb-3">
-                                    <label for="image" class="form-label">Link to image</label>
-                                    <input type="url" name="image" id="image" class="form-control" autocomplete="off"
-                                        placeholder="https://example.com/images/sample-image">
+                                    <label for="image" class="form-label">Previous Test ID</label>
+                                    <input type="text" name="oldTestId" id="oldTestId" class="form-control" autocomplete="off"
+                                        placeholder="60fec26972263e0004cd877c">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn modal-btn-close"
                                         data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" disabled class="btn modal-btn">Submit</button>
+                                    <button type="submit" class="btn modal-btn">Submit</button>
                                 </div>
                             </div>
                         </form>

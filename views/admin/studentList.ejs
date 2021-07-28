@@ -9,11 +9,12 @@
                         <tr class="text-center">
                             <th scope="col-1 cell">#</th>
                             <th scope="col-1 cell">Picture</th>
-                            <th scope="col-3 cell">Name</th>
+                            <th scope="col-2 cell">Name</th>
                             <th scope="col-4 cell">Email</th>
                             <th scope="col-1 cell">Class</th>
                             <th scope="col-1 cell">Section</th>
                             <th scope="col-1 cell">Roll</th>
+                            <th scope="col-1 cell">Update</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody">
@@ -52,12 +53,13 @@
         function createRow(student, i) {
             var block = '<tr>';
             block += '<td scope="col-1" class="cell">' + i + '.</td>';
-            block += '<td scope="col-3" class="cell"><img src="' + student.picture + '" alt="Picture" width="50" height="50" loading="lazy" class="d-inline-block align-text-top rounded-circle img-zoom-on-hover" ></td > ';
+            block += '<td scope="col-1" class="cell"><img src="' + student.picture + '" alt="Picture" width="50" height="50" loading="lazy" class="d-inline-block align-text-top rounded-circle img-zoom-on-hover" ></td > ';
             block += '<td scope="col-1" class="cell user-select-all">' + student.name + '</td>';
             block += '<td scope="col-4" class="cell user-select-all">' + student.email + '</td>';
             block += '<td scope="col-1" class="cell">' + student.class + '</td>';
             block += '<td scope="col-1" class="cell">' + student.section + '</td>';
             block += '<td scope="col-1" class="cell">' + student.roll + '</td>';
+            block += '<td scope="col-1" class="cell"><a href=/student/profile/edit/'+student._id+'><i class="fas fa-edit"></i></td>';
             block += '</tr>';
             $("#tableBody").append(block);
         }

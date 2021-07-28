@@ -248,7 +248,54 @@ module.exports = (app) => {
         }
     })
     
+    app.post("/test/:testId/question/copy", ensureAdmin, function (req, res) {
+        if (isValidObjectId(req.params.testId) & isValidObjectId(req.body.oldTestId)) {
+            const oldTestId = req.body.oldTestId;
+            const testId = req.params.testId;
+            Question.find({test:oldTestId},function(err, questions){
+                if(err){
+                    res.render("custom",{user:req.user[0],msg:"Some Error Occured In Accessing Previous Test"})
+                    console.log(err);
+                }
+                else{
+                    noq=questions.length
+                    newQuestions=[]
+                    count=0
+                    questions.forEach(question=>{
+                        newQuestions.push(
+                            {
+                                test : mongoose.Types.ObjectId(testId),
+                                type : question.type,
+                                statement : question.statement,
+                                image : question.image,
+                                option1 : question.option1,
+                                option2 : question.option2,
+                                option3 : question.option3,
+                                option4 : question.option4,
+                                correct : question.correct,
 
+                            }
+                        )
+                        count++;
+                        if(count==noq){
+                            Question.insertMany(newQuestions,function(err,docs){
+                                if(err){
+                                    res.render("custom",{user:req.user[0],msg:"Some Error Occured While Importing Questions"})
+                                    console.log(err);
+                                }
+                                else{
+                                    res.redirect("/test/"+req.params.testId)
+                                }
+                            })
+                        }
+                    })
+                } 
+            })
+        }   
+        else{
+            res.render("custom",{user:req.user[0],msg:"Not a valid question id"})
+        }
+    })
     
 
     

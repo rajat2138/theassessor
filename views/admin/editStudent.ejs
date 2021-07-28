@@ -1,0 +1,110 @@
+<%- include("../partials/authUpper.ejs") %>
+
+
+    <div class="row justify-content-center margin-top black-text">
+        <div class="col-lg-6 col-md-9">
+            <h4 class="text-center" >Edit Student Details</h4>
+
+            <form  method="post" class="margin-top">
+                <div class="form-floating mb-3">
+                    <input type="text" name="sname" id="sname" class="form-control" required
+                        placeholder="Your Full Name" value="<%= student.name %> ">
+                    <label for="sname" class="form-label">Full Name</label>
+                </div>
+                <div class="row mb-3">
+                    
+                    <div class="col-md-6">
+                        <label for="studentClass" class="form-label">Class</label>
+                        <select class="form-select " id="studentClass" name="studentClass">
+                            <optgroup label="School">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                                <option value="6">6</option>
+                                <option value="7">7</option>
+                                <option value="8">8</option>
+                                <option value="9">9</option>
+                                <option value="10">10</option>
+                                <option value="11">11</option>
+                                <option value="12">12</option>
+                            </optgroup>
+                            <optgroup label="Graduation">
+                                <option value="GY1">Graduation 1st Year</option>
+                                <option value="GY1S1">Graduation 1st Year 1st Semester</option>
+                                <option value="GY1S2">Graduation 1st Year 2nd Semester</option>
+                                <option value="GY2">Graduation 2nd Year</option>
+                                <option value="GY2S1">Graduation 2nd Year 1st Semester</option>
+                                <option value="GY2S2">Graduation 2nd Year 2nd Semester</option>
+                                <option value="GY3">Graduation 3rd Year</option>
+                                <option value="GY3S1">Graduation 3rd Year 1st Semester</option>
+                                <option value="GY3S2">Graduation 3rd Year 2nd Semester</option>
+                                <option value="GY4">Graduation 4th Year</option>
+                                <option value="GY4S1">Graduation 4th Year 1st Semester</option>
+                                <option value="GY4S2">Graduation 4th Year 2nd Semester</option>
+                                <option value="GY5">Graduation 5th Year</option>
+                                <option value="GY5S1">Graduation 5th Year 1st Semester</option>
+                                <option value="GY5S2">Graduation 5th Year 2nd Semester</option>
+                            </optgroup>
+                            <optgroup label="Post Graduation">
+                                <option value="PGY1">PG 1st Year</option>
+                                <option value="PGY1S1">PG 1st Year 1st Semester</option>
+                                <option value="PGY1S2">PG 1st Year 2nd Semester</option>
+                                <option value="PGY2">PG 2nd Year</option>
+                                <option value="PGY2S1">PG 2nd Year 1st Semester</option>
+                                <option value="PGY2S2">PG 2nd Year 2nd Semester</option>
+                                <option value="PGY3">PG 3rd Year</option>
+                                <option value="PGY3S1">PG 3rd Year 1st Semester</option>
+                                <option value="PGY3S2">PG 3rd Year 2nd Semester</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="studentSection" class="form-label">Section</label>
+                        <select class="form-select " id="studentSection" name="studentSection">
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                            <option value="G">G</option>
+                            <option value="H">H</option>
+                            <option value="I">I</option>
+                            <option value="J">J</option>
+                            <option value="K">K</option>
+                            <option value="L">L</option>
+                            <option value="M">M</option>
+                            <option value="N">N</option>
+                            <option value="O">O</option>
+                            <option value="P">P</option>
+                            <option value="Q">Q</option>
+                            <option value="R">R</option>
+                            <option value="S">S</option>
+                            <option value="T">T</option>
+                            <option value="U">U</option>
+                            <option value="V">V</option>
+                            <option value="W">W</option>
+                            <option value="X">X</option>
+                            <option value="Y">Y</option>
+                            <option value="Z">Z</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="text" name="studentRoll" id="studentRoll" class="form-control" aria-describedby="roll"
+                        autocomplete="off" required value="<%= student.roll %> ">
+                    <label for="studentRoll" class="form-label">Roll Number</label>
+                </div>
+                <h6 class="myorangecolor">* Select Correct Class and Section of Student Before Submitting</h6>
+                <div class="text-center margin-top">
+                    <button type="submit" class="btn btn-lg btn-warning text-center">Submit</button>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+
+    <%- include("../partials/footer.ejs") %>
