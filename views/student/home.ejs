@@ -83,6 +83,7 @@
                             <h5 class="card-title mybluecolor text-center">Profile</h5>
                             <div class="card-subtitle mb-2 text-muted">
                                 <hr>
+                                <p id="StudentEmail"></p>
                                 <p id="StudentName"></p>
                                 <p id="StudentClass"></p>
                                 <p id="StudentSection"></p>
@@ -141,6 +142,7 @@
 
                 $.get("/student/api/profile", function (data, status) {
                     if (data.msg === "success") {
+                        $("#StudentEmail").append(data.email);
                         $("#StudentName").append("Name - "+data.name);
                         $("#StudentClass").append("Class - "+data.class);
                         $("#StudentSection").append("Section - "+data.section);

@@ -483,7 +483,7 @@ module.exports = (app) => {
             }
             else {
                 if(data) {
-                    res.status(200).json({ "msg": "success", "name": data.name, "class" : data.class, "section" : data.section, "roll" : data.roll })
+                    res.status(200).json({ "msg": "success", "name": data.name, "class" : data.class, "section" : data.section, "roll" : data.roll, "email" : data.email })
                 }
                 else {
                     res.status(200).json({ "msg": "Null" })

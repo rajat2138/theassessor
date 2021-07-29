@@ -3,10 +3,19 @@
 
     <div class="row justify-content-center margin-top black-text">
         <div class="col-lg-6 col-md-9">
-            <h4 class="text-center" >Edit Student Details</h4>
-
+            <h4 class="text-center" >Edit Student Details</h4><hr>
             <form  method="post" class="margin-top">
-                <div class="form-floating mb-3">
+                <div class="row margin-top">
+                    <div class="col-4"><img src="<%= student.picture%>" alt="" width="60%" height="80%" loading=lazy
+                        class="rounded-circle"></div>
+                    <div class="col-8">
+                        <div class="form-floating mb-3 margin-top">
+                            <input type="text" id="email" class="form-control" disabled value="<%= student.email %> ">
+                            <label for="email" class="form-label">Email</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-floating mb-3 margin-top">
                     <input type="text" name="sname" id="sname" class="form-control" required
                         placeholder="Your Full Name" value="<%= student.name %> ">
                     <label for="sname" class="form-label">Full Name</label>
