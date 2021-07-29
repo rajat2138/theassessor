@@ -3,6 +3,7 @@
 
     <div class="container-fluid about-item">
         <div class="row justify-content-center">
+            <div id="excelDownload"></div>
             <div class="col-10">
                 <table class="table table-striped table-hover">
                     <thead>
@@ -37,13 +38,14 @@
                 if (data.msg === "success") {
                     results = data.resultData
                     sortByScore()
+                    var x='<button onclick="exportToCsv()" class="btn btn-primary">Export to Excel</button>';
+                    $("#excelDownload").append(x)
                 }
                 else {
                     $("#msg").append('<h3 class="text-center user-select-none" style="color:gray;margin-top:2%;">' + data.msg + '</h3>');
                 }
             })
         })
-        //
 
         function sortByRoll() {
             if (results!=undefined) {
@@ -99,7 +101,17 @@
             block += '<td scope="col-1" class="cell">' + data.ap + '</td>';
             block += '</tr>';
             $("#tableBody").append(block);
+
         }
+        exportToCsv = function() {
+            var CsvString = "Class,Section,Name,Email,Roll,Score,Assessor Points\r\n";
+            results.forEach(function(result) {
+                var row=result.student.class+','+result.student.section+','+result.student.email+','+result.student.name+','+result.student.roll+','+result.score+','+result.ap+'\r\n'
+                CsvString += row;
+            });
+            window.open('data:application/vnd.ms-excel,' + encodeURIComponent(CsvString));
+        }
+
     </script>
 
     <%- include("../partials/footer.ejs") %>
