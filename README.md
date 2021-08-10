@@ -22,13 +22,19 @@ The source file of this project is available at https://github.com/theassessor/t
 The whole project is my own work.
 
 
-### Project Description
+# Project Description
   ● Built a responsive web app which can handle online exams and related work.
+  
   ● Developed routes along with JSON to handle authentication (login, register and logout) for institutes and students using Node.js based server side
-  ● Created routes for institutions to initialize tests, add questions, edit tests, and view results and routes for students to take tests and view results.
+  
+  ● Created routes for institutions to initialize tests, add questions, edit tests, and view results and routes for students to take tests and view results
+  
   ● Conceptualized frontend of application utilizing HTML, CSS and Bootstrap on Client-Side
+  
   ● Utilized Mongo Cloud as database for the application and used Mongoose for database related work
+  
   ● Deployed application on Heroku Cloud, and updating app actively using Git and Heroku CLI
+  
   ● Being used by 1 school with their 550+ registered students
   
   
