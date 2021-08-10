@@ -6,7 +6,7 @@ Here are some ideas to get you started:
 - 🤔 I’m looking for help with addidng more features
 - 💬 Ask me about this project. To understand this projcet or to use this product
 - 📫 How to reach me: mail me at rajatgupta2138@gmail.com
--->
+
 
 
 # theassessor
@@ -22,7 +22,7 @@ The source file of this project is available at https://github.com/theassessor/t
 The whole project is my own work.
 
 
-The Assesor - Full Stack Development
+### Project Description
   ● Built a responsive web app which can handle online exams and related work.
   ● Developed routes along with JSON to handle authentication (login, register and logout) for institutes and students using Node.js based server side
   ● Created routes for institutions to initialize tests, add questions, edit tests, and view results and routes for students to take tests and view results.
