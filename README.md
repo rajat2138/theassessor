@@ -9,7 +9,7 @@ Here are some ideas to get you started:
 
 
 
-# theassessor
+# About
 Online Manged Examination System
 
 Find the deployed version of this project at https://theassessor.herokuapp.com/ 
